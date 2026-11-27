@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://open-mining-skills.local/schemas/report-envelope.schema.json",
+  "title": "Open Mining Skills report envelope",
+  "description": "Common metadata added to JSON reports by common.finalize_report(). Report-specific fields remain at the top level in v0.1 for backward compatibility.",
+  "type": "object",
+  "required": ["schemaVersion", "skill"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "skill": {
+      "type": "string",
+      "minLength": 1
+    },
+    "result": {
+      "type": "string",
+      "enum": ["PASS", "PASS_WITH_WARNINGS", "FAIL", "UNKNOWN", "UNSUPPORTED"]
+    },
+    "status": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/issue"
+      }
+    },
+    "sources": {},
+    "data": {}
+  },
+  "additionalProperties": true,
+  "$defs": {
+    "issue": {
+      "type": "object",
+      "required": ["severity", "code", "message"],
+      "properties": {
+        "severity": {
+          "type": "string",
+          "enum": ["error", "warning", "info"]
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
